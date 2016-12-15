@@ -19,11 +19,14 @@ function sendChatEntranceRequest(username) {
 	}); 
 }
 
+document.getElementById("msgSubmitButton").addEventListener("click", function() { 
+ 	var msg      = document.getElementById("messageField").value; 
+  	var username = document.getElementById("hiddenField").value; // other options? 
+    sendMessage(username, message); // implement like sendChatEntranceRequest, refactoring?
+});
+
 function sendMessage(message){
-	document.getElementById("msgSubmitButton").addEventListener("click", function() { 
- 		var msg      = document.getElementById("messageField").value; 
-  	 	var username = document.getElementById("hiddenField").value; // other options? 
-     	sendMessage(username, message); // implement like sendChatEntranceRequest,                                   // refactoring?
-		repeatedlySendRequest();
-	});
-}
+	var req = new XMLHttpRequest();
+	req.open("GET", "http://localhost:9000/?user=" + username + "?message=" + message, true);
+	req.send(null);
+	}
