@@ -8,7 +8,7 @@ var server = http.createServer(function(request, response){
 		response.name = request.connection.remoteAddress + ":" + request.connection.remotePort;
 		response.writeHead(200, {"Content-Type": "text/html", "Access-control-allow-origin": "*"});
 		response.write("<h1>Hello " + response.name + "!</h1><p>You asked for <code>" + request.url + "</code></p>");	
-		chatList.push(response.name);
+		chatList.push(response);
 		broadcast(response.name + " entered the chat room.\n", response.name);
 		console.log(chatList)
 	});
@@ -27,6 +27,7 @@ server.listen(8000);
 function broadcast(message, client){
 		var removechatList = [];
 		chatList.forEach(function(participant){
+			var data = JSON.stringify(chatList(participant));
 			if(participant !== client){
 					participant.write(client.name + " : " + message);
 				}
